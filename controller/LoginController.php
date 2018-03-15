@@ -28,5 +28,27 @@ require_once '../repository/LoginRepository.php';
       $view->heading = 'Registration';
       $view->display();
     }
+
+    public function login()
+    {
+      $view = new View('login_registration');
+      $view->title = 'Bilder-DB';
+      $view->heading = 'Registration';
+      $view->display();
+    }
+    
+    public function doRegistration()
+    {
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+
+      if ($name !== ""  && $email !== "" && $password !== "") {
+        $loginRepository = new LoginRepository();
+        $loginRepository->registerUser($name, $email, $password);
+        header('Location: '.$GLOBALS['appurl'].'');
+      }
+    }
+    
 }
 ?>
