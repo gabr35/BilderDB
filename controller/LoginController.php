@@ -3,8 +3,10 @@ require_once '../repository/LoginRepository.php';
 /**
  * Controller für das Login und die Registration, siehe Dokumentation im DefaultController.
  */
+session_start();
   class LoginController
   {
+    
     /**
      * Default-Seite für das Login: Zeigt das Login-Formular an
 	 * Dispatcher: /login
@@ -36,18 +38,91 @@ require_once '../repository/LoginRepository.php';
       $view->heading = 'Registration';
       $view->display();
     }
-    
-    public function doRegistration()
-    {
-      $name = $_POST['name'];
+
+    public function doLogin() {
       $email = $_POST['email'];
       $password = $_POST['password'];
 
-      if ($name !== ""  && $email !== "" && $password !== "") {
-        $loginRepository = new LoginRepository();
-        $loginRepository->registerUser($name, $email, $password);
-        header('Location: '.$GLOBALS['appurl'].'');
+      $loginRepository = new LoginRepository();
+      if ($email !== "" && $password !== "") {
+        $user = $loginRepository->checkLogin($email, $password);
+        if ($user != null) {
+          $_SESSION['uid'] = $user->id;
+          $_SESSION['name'] = $user->name;
+          header('Location: '.$GLOBALS['appurl'].'/landing');
+        } else {
+          header('Location: '.$GLOBALS['appurl'].'/login?error='.'Login ist falsch');
+        }
+      } else {
+        switch ("") {
+          case $email:
+            header('Location: '.$GLOBALS['appurl'].'/login?error='.'E-mail ist leer');
+            break;
+          case $password:
+            header('Location: '.$GLOBALS['appurl'].'/login?error='.'Password ist leer');
+            break;
+        }
       }
+    }
+    
+    public function doRegistration()
+    {
+      $emailRegex = "/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD";
+      $regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}";
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $passwordBestätigen = $_POST['password_bestätigen'];
+
+      $loginRepository = new LoginRepository();
+
+      if ($name !== ""  && $email !== "" && $password !== "" && $passwordBestätigen !== "") {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          if ($password === $passwordBestätigen) {
+            $uppercase = preg_match('@[A-Z]@', $password);
+            $lowercase = preg_match('@[a-z]@', $password);
+            $number    = preg_match('@[0-9]@', $password);
+            if ($loginRepository->chekcEmail($email)) {
+              if($uppercase && $lowercase && $number && strlen($password) >= 8) {
+                
+                $password = sha1($password);                
+                $loginRepository->registerUser($name, $email, $password);
+                header('Location: '.$GLOBALS['appurl'].'');
+              } else {
+                header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Passwort entspricth nicht der Vorgabe');
+              }
+            } else {
+              header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Email ist schon vergeben');
+            }
+          } else {
+            header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Passwörter stimmen nicht überein');
+          }
+        } else {
+          header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Email ist nicht gültig');
+        }
+      } else {
+        switch ("") {
+          case $name:
+            header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Name ist leer');
+            break;
+          case $email:
+            header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'E-mail ist leer');
+            break;
+          case $password:
+            header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Password ist leer');
+            break;
+          case $password:
+            header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Password ist leer');
+            break;
+        }
+      }
+    }
+
+    public function logout() {
+      session_destroy();
+      var_dump($_SESSION['name']);
+      //die();ss
+      header('Location: '.$GLOBALS['appurl'].'/login');
     }
     
 }

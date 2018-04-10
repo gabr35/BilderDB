@@ -1,3 +1,14 @@
+<?php
+  session_start();
+  $url = $GLOBALS["appurl"].'/login';
+  $tag = 'Login';
+  
+  if (isset($_SESSION['uid'])) {
+    $url = $GLOBALS["appurl"].'/login/logout';
+    $tag = 'Logout';
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -29,8 +40,8 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
 			<!-- fix schf -->
-            <li><a href="<?=$GLOBALS['appurl']?>/login">Login</a></li>
-            <li><a href="<?=$GLOBALS['appurl']?>/login/registration">Registration</a></li>
+            <li><a href="<?=$url?>"><?=$tag?></a></li> 
+            <li><a href="<?=$GLOBALS['appurl']?>/login/registration">Registration</a></li>      
           </ul>
         </div><!--/.nav-collapse -->
       </div>
