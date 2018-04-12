@@ -14,7 +14,7 @@ session_start();
     public function index()
     {
       $loginRepository = new LoginRepository();
-      $view = new View('login_index');
+      $view = new View('login_index_form');
       $view->title = 'Bilder-DB';
       $view->heading = 'Login';
       $view->display();
