@@ -46,12 +46,12 @@ require_once '../lib/Repository.php';
     public function checkLogin($email, $password)
     {
       // Query erstellen
-      $query = "SELECT * FROM user WHERE email=?";
+      $query = "SELECT * FROM user WHERE email=? AND password=?";
   
       // Datenbankverbindung anfordern und, das Query "preparen" (vorbereiten)
       // und die Parameter "binden"
       $statement = ConnectionHandler::getConnection()->prepare($query);
-      $statement->bind_param('s', $email);
+      $statement->bind_param('ss', $email, $password);
   
       // Das Statement absetzen
       $statement->execute();
@@ -73,17 +73,8 @@ require_once '../lib/Repository.php';
       //echo $row->password;
       //die();
 
-      if ($row->password == sha1($password)) {
-        //Den gefundenen Datensatz zurückgeben
-       // echo $row->name;
-        
+      
         return $row;
-      } else {
-        // echo $row->name;
-        // echo "nok";
-        
-        return null;
-      }
     }
 
   }

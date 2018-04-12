@@ -25,7 +25,7 @@ session_start();
      */
     public function registration()
     {
-      $view = new View('login_registration');
+      $view = new View('login_regristration_form');
       $view->title = 'Bilder-DB';
       $view->heading = 'Registration';
       $view->display();
@@ -40,12 +40,15 @@ session_start();
     }
 
     public function doLogin() {
-      $email = $_POST['email'];
-      $password = $_POST['password'];
 
+      $email = $_POST['email'];
+      $password = sha1($_POST['password']);
+      
       $loginRepository = new LoginRepository();
       if ($email !== "" && $password !== "") {
         $user = $loginRepository->checkLogin($email, $password);
+        var_dump($user);
+        die();
         if ($user != null) {
           $_SESSION['uid'] = $user->id;
           $_SESSION['name'] = $user->name;
@@ -85,9 +88,15 @@ session_start();
             if ($loginRepository->chekcEmail($email)) {
               if($uppercase && $lowercase && $number && strlen($password) >= 8) {
                 
-                $password = sha1($password);                
+                $password = sha1($password);
                 $loginRepository->registerUser($name, $email, $password);
-                header('Location: '.$GLOBALS['appurl'].'');
+                sleep(3);
+                $user = $loginRepository->checkLogin($email, $password);
+                var_dump($user);
+                die();
+                $_SESSION['uid'] = $user->id;
+                $_SESSION['name'] = $user->name;
+                header('Location: '.$GLOBALS['appurl'].'/landing');
               } else {
                 header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Passwort entspricth nicht der Vorgabe');
               }

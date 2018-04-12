@@ -52,13 +52,13 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         <?php
-                        if (isset($_GET['error'])) {
-                            $error = $_GET['error'];
-                            echo "<div class='alert alert-danger' style='margin-top:20px'>
-                                    <strong>$error</strong>
-                                  </div>";
-                          } 
-        ?>
+                            if (isset($_GET['error'])) {
+                                $error = $_GET['error'];
+                                echo "<div class='alert alert-danger' style='margin-top:20px'>
+                                        <strong>$error</strong>
+                                    </div>";
+                            } 
+                        ?>
                         	<div class="form-top">
                         		<div class="form-top-left">
                         			<h3>Login to our site</h3>
@@ -69,14 +69,14 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form" action="<?=$GLOBALS['appurl'].'/login/doLogin'?>" method="post" class="login-form">
+			                    <form role="form" action="<?=$GLOBALS['appurl'].'/login/doRegistration'?>" method="post" class="login-form">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="form-username">Username</label>
 			                        	<input type="text" name="name" placeholder="Username..." class="form-username form-control" id="form-username">
                                     </div>
                                     <div class="form-group">
 			                    		<label class="sr-only" for="form-email">Email</label>
-			                        	<input type="text" name="name" placeholder="Email..." class="form-username form-control" id="form-email">
+			                        	<input type="text" name="email" placeholder="Email..." class="form-username form-control" id="form-email">
 			                        </div>
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-password">Password</label>
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="form-group">
 			                        	<label class="sr-only" for="form-password2">Password Bestätigen</label>
-			                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
+			                        	<input type="password" name="password_bestätigen" placeholder="Password..." class="form-password form-control" id="form-password">
 			                        </div>
 			                        <button type="submit" class="btn">Sign in!</button>
 			                    </form>
