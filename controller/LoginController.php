@@ -3,7 +3,6 @@ require_once '../repository/LoginRepository.php';
 /**
  * Controller für das Login und die Registration, siehe Dokumentation im DefaultController.
  */
-session_start();
   class LoginController
   {
     
@@ -47,8 +46,7 @@ session_start();
       $loginRepository = new LoginRepository();
       if ($email !== "" && $password !== "") {
         $user = $loginRepository->checkLogin($email, $password);
-        var_dump($user);
-        die();
+        
         if ($user != null) {
           $_SESSION['uid'] = $user->id;
           $_SESSION['name'] = $user->name;
@@ -92,8 +90,8 @@ session_start();
                 $loginRepository->registerUser($name, $email, $password);
                 sleep(3);
                 $user = $loginRepository->checkLogin($email, $password);
-                var_dump($user);
-                die();
+                //var_dump($user);
+                //die();
                 $_SESSION['uid'] = $user->id;
                 $_SESSION['name'] = $user->name;
                 header('Location: '.$GLOBALS['appurl'].'/landing');

@@ -10,7 +10,7 @@
  */
 
   // fix schf: approot für url
-  
+  session_start();
 
   $GLOBALS['appurl'] = '/m151/bilderdb_vorlage_bbcmvc/public';
   $GLOBALS['numAppurlFragments'] = 3;

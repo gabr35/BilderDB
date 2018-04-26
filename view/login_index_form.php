@@ -40,13 +40,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1><strong>Bootstrap</strong> Login Form</h1>
-                            <div class="description">
-                            	<p>
-	                            	This is a free responsive login form made with Bootstrap. 
-	                            	Download it on <a href="http://azmind.com"><strong>AZMIND</strong></a>, customize and use it as you like!
-                            	</p>
-                            </div>
+                            <h1><strong>Login</strong></h1>
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -58,7 +53,7 @@
                                     <strong>$error</strong>
                                   </div>";
                           } 
-        ?>
+                        ?>
                         	<div class="form-top">
                         		<div class="form-top-left">
                         			<h3>Login to our site</h3>

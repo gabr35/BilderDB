@@ -1,11 +1,15 @@
 <?php
-  session_start();
-  $url = $GLOBALS["appurl"].'/login';
-  $tag = 'Login';
+  
+  $loginUrl = $GLOBALS["appurl"].'/login';
+  $loginTag = 'Login';
+  $regriTag = "block";
+  $gallerieTag = "none";
   
   if (isset($_SESSION['uid'])) {
-    $url = $GLOBALS["appurl"].'/login/logout';
-    $tag = 'Logout';
+    $loginUrl = $GLOBALS["appurl"].'/login/logout';
+    $loginTag = 'Logout';
+    $regriTag = "none"; 
+    $gallerieTag = "display";
   }
 ?>
 
@@ -40,8 +44,9 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
 			<!-- fix schf -->
-            <li><a href="<?=$url?>"><?=$tag?></a></li> 
-            <li><a href="<?=$GLOBALS['appurl']?>/login/registration">Registration</a></li>      
+            <li><a href="<?=$loginUrl?>"><?=$loginTag?></a></li> 
+            <li style="display:<?=$regriTag ?>"><a href="<?=$GLOBALS['appurl']?>/login/registration">Registration</a></li>      
+            <li style="display:<?=$gallerieTag ?>"><a href="<?=$GLOBALS['appurl']?>/gallerie/createGallery">Gallerie erstellen</a></li>      
           </ul>
         </div><!--/.nav-collapse -->
       </div>
