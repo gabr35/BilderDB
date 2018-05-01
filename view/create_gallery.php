@@ -28,14 +28,14 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form" action="<?=$GLOBALS['appurl'].'/login'?>" method="post" class="login-form">
+			                    <form role="form" action="<?=$GLOBALS['appurl'].'/gallerie/doCreateGallery'?>" method="post" class="login-form">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="form-name">Name</label>
 			                        	<input type="text" name="name" placeholder="Name..." class="form-username form-control" id="form-name">
 			                        </div>
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-description">Description</label>
-			                        	<textarea type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-description"></textarea>
+			                        	<textarea type="password" name="description" placeholder="Beschreibung..." class="form-password form-control" id="form-description"></textarea>
 			                        </div>
 			                        <button type="submit" class="btn">Erstellen</button>
 			                    </form>
