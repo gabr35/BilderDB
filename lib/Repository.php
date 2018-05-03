@@ -151,8 +151,7 @@
      *
      * @throws Exception falls das Ausführen des Statements fehlschlägt
      */
-    public function deleteById($id)
-    {
+    public function deleteById($id) {
       $query = "DELETE FROM {$this->tableName} WHERE {$this->tableId}=?";
       $statement = ConnectionHandler::getConnection()->prepare($query);
       $statement->bind_param('i', $id);

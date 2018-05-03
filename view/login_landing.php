@@ -12,14 +12,43 @@
 } else {
     foreach ($galleries as $gallerie) {
 ?>
-    <div class="col-md-3 mr-bottom-3">
+    <div class="col-md-3 mb-5">
         <div class="card" style="width: 25rem;">
             <img class="card-img-top" src="<?=$GLOBALS['appurl']?>/images/backlit-dawn-foggy-697243.jpg" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title"><?=$gallerie->name?></h3>
                 <p class="card-text"><?=$gallerie->description?></p>
+                <div class="row">
+                    <div class="col-md-3" >
+                        <img data-toggle="modal" data-target="#delete-modal-<?=$gallerie->id?>" class="pull-right" style="width:20%;cursor:pointer" alt="icon" src="<?=$GLOBALS['appurl']?>/svg/trashcan.svg">
+                    </div>
+                    <div class="col-md-3">
+                        <img class="pull-right" style="width:20%;cursor:pointer" src="<?=$GLOBALS['appurl']?>/svg/pencil.svg" alt="icon">
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal-<?=$gallerie->id?>" tabindex="-1" role="dialog" aria-labelledby="aria-modal-<?=$gallerie->id?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Wollen Sie die Gallerie <i><?=$gallerie->name?></i> Löschen?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+            <a href="<?=$GLOBALS['appurl']?>/gallerie/delete?id=<?=$gallerie->id?>">Löschen</a> 
+        </div>
+        </div>
+    </div>
     </div>
 <?php
     }

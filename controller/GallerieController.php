@@ -26,5 +26,13 @@ require_once '../repository/GalleryRepository.php';
 
       
     }
+
+    public function delete() {
+      
+      $id = $_GET['id'];
+      $galleryRepository = new GalleryRepository();
+      $galleryRepository->deleteGalleryById($id);
+      header('Location: '.$GLOBALS['appurl'].'/landing');
+    }
   }
 ?>

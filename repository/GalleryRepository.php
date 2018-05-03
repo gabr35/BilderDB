@@ -33,5 +33,15 @@ class GalleryRepository extends Repository {
        return $rows;
     }
 
+    public function deleteGalleryById($id) {
+        $query = "DELETE FROM gallery WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $id);
+    
+        if (!$statement->execute()) {
+          throw new Exception($statement->error);
+        }
+      }
+
 }
 ?>
