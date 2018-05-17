@@ -54,5 +54,15 @@ require_once '../repository/GalleryRepository.php';
       $galleryRepository->editGallery($id, $name, $description);
       header('Location: '.$GLOBALS['appurl'].'/landing');
     }
+
+    public function fotos() {
+      $gid = $_GET['gid'];
+      $galleryRepository = new GalleryRepository();
+      $view = new View('foto_gallery');
+      $view->heading = 'Fotos';
+      $view->title = 'Fotos';
+      $view->fotos = $galleryRepository->getFotosByGid($gid);
+      $view->display();
+    }
   }
 ?>

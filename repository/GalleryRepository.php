@@ -80,5 +80,23 @@ class GalleryRepository extends Repository {
           }
       }
 
+      public function getFotosByGid($gid) {
+        $query = "SELECT * FROM picture WHERE gid=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $gid);
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+        }
+
+        $rows = array();
+        $result = $statement->get_result();
+        while ($row = $result->fetch_object()) {
+            $rows[] = $row;
+        }
+        $statement->close();
+       return $rows;
+      }
+
 }
 ?>
