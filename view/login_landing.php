@@ -14,16 +14,17 @@
 ?>
     <div class="col-md-3 mb-5">
         <div class="card" style="width: 25rem;">
-            <img class="card-img-top" src="<?=$GLOBALS['appurl']?>/images/backlit-dawn-foggy-697243.jpg" alt="Card image cap">
+            <a href="#"><img class="card-img-top" src="<?=$GLOBALS['appurl']?>/images/backlit-dawn-foggy-697243.jpg" alt="Card image cap"></a>
             <div class="card-body">
                 <h3 class="card-title"><?=$gallerie->name?></h3>
                 <p class="card-text"><?=$gallerie->description?></p>
                 <div class="row">
-                    <div class="col-md-3" >
-                        <img data-toggle="modal" data-target="#delete-modal-<?=$gallerie->id?>" class="pull-right" style="width:20%;cursor:pointer" alt="icon" src="<?=$GLOBALS['appurl']?>/svg/trashcan.svg">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2 text-right" >
+                        <img data-toggle="modal" data-target="#delete-modal-<?=$gallerie->id?>" class="pull-right" style="width:100%;cursor:pointer" alt="icon" src="<?=$GLOBALS['appurl']?>/svg/trashcan.svg">
                     </div>
-                    <div class="col-md-3">
-                        <img class="pull-right" style="width:20%;cursor:pointer" src="<?=$GLOBALS['appurl']?>/svg/pencil.svg" alt="icon">
+                    <div class="col-md-2 text-right">
+                        <a href="<?=$GLOBALS['appurl']?>/gallerie/edit?id=<?=$gallerie->id?>"><img class="pull-right" style="width:100%;" src="<?=$GLOBALS['appurl']?>/svg/pencil.svg" alt="icon"></a>
                     </div>
                 </div>
             </div>

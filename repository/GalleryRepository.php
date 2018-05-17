@@ -14,6 +14,34 @@ class GalleryRepository extends Repository {
         }
     }
 
+    public function getGalleryById($id) {
+
+        $query = "SELECT * FROM gallery WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $id);
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+        }
+
+        $statement->execute();
+  
+        // Resultat der Abfrage holen
+        $result = $statement->get_result();
+        if (!$result) {
+          throw new Exception($statement->error);
+        }
+    
+        // Ersten Datensatz aus dem Reultat holen
+        $row = $result->fetch_object();
+    
+        // Datenbankressourcen wieder freigeben
+        $result->close();
+    
+        // Den gefundenen Datensatz zurückgeben
+        return $row;
+    }
+
     public function getGalleriesByUid($uid) {
 
         $query = "SELECT * FROM gallery WHERE uid=?";
@@ -41,6 +69,15 @@ class GalleryRepository extends Repository {
         if (!$statement->execute()) {
           throw new Exception($statement->error);
         }
+      }
+
+      public function editGallery($id, $name, $description) {
+        $query = "UPDATE gallery SET description=?, name=? where id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssi', $description, $name, $id);
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+          }
       }
 
 }
