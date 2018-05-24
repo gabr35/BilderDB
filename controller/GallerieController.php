@@ -61,8 +61,87 @@ require_once '../repository/GalleryRepository.php';
       $view = new View('foto_gallery');
       $view->heading = 'Fotos';
       $view->title = 'Fotos';
+      $view->gid = $gid;
       $view->fotos = $galleryRepository->getFotosByGid($gid);
       $view->display();
+    }
+
+    public function createFoto() {
+      $gid = $_GET['gid'];
+      $view = new View('create_foto');    
+      $view->heading = 'Bilderdatenbank';
+      $view->title = 'Foto hochladen';
+      $view->gid = $gid;
+      $view->display();
+    }
+
+    public function doCreateFoto() {
+      $description = $_POST['description'];
+      $name = $_POST['name'];
+      $gid = $_GET['gid'];
+
+      $target_dir = $GLOBALS['appurl']."/uploads";
+      $target_file = $target_dir.time()."_".basename($_FILES["picture"]["name"]);
+      $target_file_small = $target_dir.time()."_small_".basename($_FILES["picture"]["name"]);
+      $uploadOk = 1;
+      $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+      // Check if image file is a actual image or fake image
+      if($imageFileType === "jpg" || $imageFileType === "png") {
+          $check = getimagesize($_FILES["picture"]["tmp_name"]);
+          // var_dump($check, "chekc if png or jpg");
+          //         die();
+          if($check !== false) {
+              echo "File is an image - " . $check["mime"] . ".";
+              $uploadOk = 1;
+              // var_dump($uploadOk, "chekc if picture");
+              //     die(); //bis hier kommt er
+              if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
+                  echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                  var_dump($uploadOk, "move upolaod");
+                  die();
+                  //make thumpnail
+                  if ($imageFileType === "jpg") {
+                    $filename = $target_file;
+                    $source = imagecreatefromjpeg($filename);
+                    list($width, $height) = getimagesize($filename);
+                    $factor = $width / $height;
+                    $newheight = 200;
+                    $newwidth = 200 * $factor;
+                    $destination = imagecreatetruecolor($newwidth, $newheight);
+                    imagecopyresampled($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                    imagejpeg($destination, $target_file_small, 100);
+                    var_dump($gid, $name, $target_file, $target_file_small, $description, "jpg");
+                    die();
+                  } else {
+                    $filename = $target_file;
+                    $source = imagecreatefrompng($filename);
+                    list($width, $height) = getimagesize($filename);
+                    $factor = $width / $height;
+                    $newheight = 200;
+                    $newwidth = 200 * $factor;
+                    $destination = imagecreatetruecolor($newwidth, $newheight);
+                    imagecopyresampled($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                    imagepng($destination, $target_file_small, 100);
+                  }
+                  
+                  $galleryRepository = new GalleryRepository();
+                  $galleryRepository->createPicture($gid, $name, $target_file, $target_file_small, $description);
+                  var_dump($gid, $name, $target_file, $target_file_small, $description);
+                  die();
+              } else {
+                  header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Fehlere beim hochladen, versuche es nochmal');
+              }
+
+          } else {
+            header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Das hochgeladene File ist kein bild');
+          }
+      } else {
+        header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Es werden nur JPG oder PNG akzeptiert');
+      }
+
+
+      
+      header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
     }
   }
 ?>

@@ -98,5 +98,17 @@ class GalleryRepository extends Repository {
        return $rows;
       }
 
+      public function createPicture($gid, $name, $path, $thumpnail, $description) {
+        $query = "INSERT INTO picture (gid, name, description, path, thumpnail) VALUES (?,?,?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('iss', $gid, $name, $description, $path, $thumpnail);
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+        }
+        var_dump($gid, $name, $path, $thumpnail, $description);
+        die();
+      }
+
 }
 ?>

@@ -14,7 +14,7 @@
 ?>
     <div class="col-md-3 mb-5">
         <div class="card" style="width: 25rem;">
-            <a href="<?=$GLOBALS['appurl']?>/gallerie/fotos?gid=".<?$galleri->id?>><img class="card-img-top" src="<?=$GLOBALS['appurl']?>/images/backlit-dawn-foggy-697243.jpg" alt="Card image cap"></a>
+            <a href="<?=$GLOBALS['appurl']?>/gallerie/fotos?gid=<?= $gallerie->id?>"><img class="card-img-top" src="<?=$GLOBALS['appurl']?>/images/pexels-photo-699782.jpeg" alt="Card image cap"></a>
             <div class="card-body">
                 <h3 class="card-title"><?=$gallerie->name?></h3>
                 <p class="card-text"><?=$gallerie->description?></p>
