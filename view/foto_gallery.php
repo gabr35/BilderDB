@@ -18,7 +18,7 @@
     <div class="col-md-3 mb-5">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <a href="#"><img class="card-img-top" src="<?=$GLOBALS['appurl']?>/uploads/"<?= $foto->thumpnail ?> alt="Card image cap"></a>
+                <a href="#"><img class="card-img-top" src="<?= $GLOBALS['appurl']."/".$foto->thumpnail ?>" alt="Card image cap"></a>
             </div>
         </div>
     </div>

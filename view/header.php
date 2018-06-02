@@ -6,6 +6,7 @@
   $gallerieTag = "none";
   $profileIcon = "none";
   $userName = "";
+  $showGallerie = "";
   
   if (isset($_SESSION['uid'])) {
     $loginUrl = $GLOBALS["appurl"].'/login/logout';
@@ -15,6 +16,7 @@
     $profileIcon = "block";
     $userNameTag = "block";
     $userName = $_SESSION['name'];
+    $showGallerie = "block";
   }
 ?>
 
@@ -82,13 +84,16 @@
           <li class="nav-item">
             <a class="nav-link" style="display:<?=$gallerieTag ?>" href="<?=$GLOBALS['appurl']?>/gallerie/createGallery">Gallerie erstellen</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" style="display:<?=$showGallerie?>" href="<?=$GLOBALS['appurl']?>/landing">Gallerien</a>
+          </li>
         </ul>
         <ul class="navbar-nav pull-right">
           <li class="nav-item">
-            <a class="nav-link" style="display:<?=$userNameTag ?>" href="<?=$GLOBALS['appurl']?>/gallerie/createGallery"><?=$userName?></a>
+            <a class="nav-link" style="display:<?=$userNameTag ?>" href=""><?=$userName?></a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" style="display:<?=$profileIcon ?>" href="<?=$GLOBALS['appurl']?>/gallerie/createGallery"><img alt="icon" src="<?=$GLOBALS['appurl']?>/svg/person.svg"></a>
+            <a class="nav-link" style="display:<?=$profileIcon ?>" href=""><img alt="icon" src="<?=$GLOBALS['appurl']?>/svg/person.svg"></a>
           </li>
         </ul>
       </div>

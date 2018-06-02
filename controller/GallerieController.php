@@ -80,7 +80,7 @@ require_once '../repository/GalleryRepository.php';
       $name = $_POST['name'];
       $gid = $_GET['gid'];
 
-      $target_dir = $GLOBALS['appurl']."/uploads";
+      $target_dir = "uploads/";
       $target_file = $target_dir.time()."_".basename($_FILES["picture"]["name"]);
       $target_file_small = $target_dir.time()."_small_".basename($_FILES["picture"]["name"]);
       $uploadOk = 1;
@@ -88,16 +88,15 @@ require_once '../repository/GalleryRepository.php';
       // Check if image file is a actual image or fake image
       if($imageFileType === "jpg" || $imageFileType === "png") {
           $check = getimagesize($_FILES["picture"]["tmp_name"]);
-          // var_dump($check, "chekc if png or jpg");
-          //         die();
+           var_dump($check, "chekc if png or jpg");
+          die();
           if($check !== false) {
-              echo "File is an image - " . $check["mime"] . ".";
+              //echo "File is an image - " . $check["mime"] . ".";
               $uploadOk = 1;
-              // var_dump($uploadOk, "chekc if picture");
-              //     die(); //bis hier kommt er
+              var_dump($target_file, "chekc if picture");
+              die(); //bis hier kommt er
               if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
-                  echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-                  var_dump($uploadOk, "move upolaod");
+                  var_dump($target_file, "move upolaod");
                   die();
                   //make thumpnail
                   if ($imageFileType === "jpg") {
@@ -129,6 +128,8 @@ require_once '../repository/GalleryRepository.php';
                   var_dump($gid, $name, $target_file, $target_file_small, $description);
                   die();
               } else {
+                  var_dump($target_file);
+                  die();
                   header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Fehlere beim hochladen, versuche es nochmal');
               }
 
@@ -137,6 +138,7 @@ require_once '../repository/GalleryRepository.php';
           }
       } else {
         header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Es werden nur JPG oder PNG akzeptiert');
+        var_dump("Es werden nur JPG oder PNG akzeptiert");
       }
 
 
