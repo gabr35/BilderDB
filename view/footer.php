@@ -9,6 +9,7 @@
     <script src="<?=$GLOBALS['appurl']?>/assets/js/jquery-1.11.1.min.js"></script>
         <script src="<?=$GLOBALS['appurl']?>/assets/bootstrap/js/bootstrap.min.js"></script>
         
-        <script src="<?=$GLOBALS['appurl']?>/assets/js/scripts.js"></script>
+        <script src="<?=$GLOBALS['appurl']?>/assets/js/jscripts.js"></script>
+        <script src="<?=$GLOBALS['appurl']?>/js/materialize.min.js"></script>
   </body>
 </html>

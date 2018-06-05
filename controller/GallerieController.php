@@ -89,15 +89,15 @@ require_once '../repository/GalleryRepository.php';
       if($imageFileType === "jpg" || $imageFileType === "png") {
           $check = getimagesize($_FILES["picture"]["tmp_name"]);
            var_dump($check, "chekc if png or jpg");
-          die();
+          //die();
           if($check !== false) {
               //echo "File is an image - " . $check["mime"] . ".";
               $uploadOk = 1;
               var_dump($target_file, "chekc if picture");
-              die(); //bis hier kommt er
+              //die(); //bis hier kommt er
               if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
                   var_dump($target_file, "move upolaod");
-                  die();
+                  //die();
                   //make thumpnail
                   if ($imageFileType === "jpg") {
                     $filename = $target_file;
@@ -110,7 +110,7 @@ require_once '../repository/GalleryRepository.php';
                     imagecopyresampled($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
                     imagejpeg($destination, $target_file_small, 100);
                     var_dump($gid, $name, $target_file, $target_file_small, $description, "jpg");
-                    die();
+                    //die();
                   } else {
                     $filename = $target_file;
                     $source = imagecreatefrompng($filename);
@@ -125,25 +125,25 @@ require_once '../repository/GalleryRepository.php';
                   
                   $galleryRepository = new GalleryRepository();
                   $galleryRepository->createPicture($gid, $name, $target_file, $target_file_small, $description);
-                  var_dump($gid, $name, $target_file, $target_file_small, $description);
-                  die();
+                  header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
+                  
               } else {
-                  var_dump($target_file);
-                  die();
-                  header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Fehlere beim hochladen, versuche es nochmal');
+                  var_dump('Fehlere beim hochladen, versuche es nochmal');
+                  //die();
+                  header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Fehlere beim hochladen, versuche es nochmal&gid='.$gid);
               }
 
           } else {
-            header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Das hochgeladene File ist kein bild');
+            var_dump("Das hochgeladene File ist kein bild");
+            //die();
+            header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Das hochgeladene File ist kein bild&gid='.$gid);
           }
       } else {
-        header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Es werden nur JPG oder PNG akzeptiert');
         var_dump("Es werden nur JPG oder PNG akzeptiert");
+        //die();
+        header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Es werden nur JPG oder PNG akzeptiert&gid='.$gid);
       }
-
-
       
-      header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
     }
   }
 ?>

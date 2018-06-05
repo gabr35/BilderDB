@@ -28,6 +28,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap core CSS -->
     
+    <link rel="stylesheet" href="<?=$GLOBALS['appurl']?>/css/materialize.min.css">
     <link rel="stylesheet" href="<?=$GLOBALS['appurl']?>/css/bootstrap.min.new.css">
     <!-- Custom styles for this template -->
     <link href="<?=$GLOBALS['appurl']?>/css/style.css" rel="stylesheet">
