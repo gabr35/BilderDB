@@ -18,8 +18,15 @@
     <div class="col-md-3 mb-5">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <img class="card-img-top materialboxed" src="<?= $GLOBALS['appurl']."/".$foto->thumpnail ?>" alt="Card image cap">
+                <img class="card-img-top materialboxed" src="<?= $GLOBALS['appurl']."/".$foto->path ?>" alt="Card image cap">
             </div>
+            <div>
+                <strong><p style="font-size: 13px" class="text-center"><?=$foto->name?></p></strong>
+            </div>
+            <div>
+                <p style="font-size: 13px"><?=$foto->description?></p>
+            </div>
+            <a href="<?=$GLOBALS['appurl']?>/gallerie/editFoto?fid=<?=$foto->id?>"><img class="pull-right" style="width:10%;" src="<?=$GLOBALS['appurl']?>/svg/pencil.svg" alt="icon"></a>
         </div>
     </div>
     

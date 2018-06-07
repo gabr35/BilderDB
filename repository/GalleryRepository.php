@@ -109,5 +109,52 @@ class GalleryRepository extends Repository {
         //var_dump($gid, $name, $path, $thumpnail, $description);
       }
 
+      public function getFotoById($id) {
+        $query = "SELECT * FROM picture WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $id);
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+        }
+
+        $statement->execute();
+  
+        // Resultat der Abfrage holen
+        $result = $statement->get_result();
+        if (!$result) {
+          throw new Exception($statement->error);
+        }
+    
+        // Ersten Datensatz aus dem Reultat holen
+        $row = $result->fetch_object();
+    
+        // Datenbankressourcen wieder freigeben
+        $result->close();
+    
+        // Den gefundenen Datensatz zurückgeben
+        return $row;
+      }
+
+      public function editFoto($id, $name, $description)
+      {
+        $query = "UPDATE picture SET description=?, name=? where id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssi', $description, $name, $id);
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+          }
+      }
+
+      public function deleteFotoById($id) {
+        $query = "DELETE FROM picture WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $id);
+    
+        if (!$statement->execute()) {
+          throw new Exception($statement->error);
+        }
+      }
+
 }
 ?>

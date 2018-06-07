@@ -90,7 +90,7 @@ require_once '../repository/GalleryRepository.php';
           $check = getimagesize($_FILES["picture"]["tmp_name"]);
            var_dump($check, "chekc if png or jpg");
           //die();
-          if($check !== false) {
+          if($_FILES["fileToUpload"]["size"] < 400000) {
               //echo "File is an image - " . $check["mime"] . ".";
               $uploadOk = 1;
               var_dump($target_file, "chekc if picture");
@@ -136,7 +136,7 @@ require_once '../repository/GalleryRepository.php';
           } else {
             var_dump("Das hochgeladene File ist kein bild");
             //die();
-            header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Das hochgeladene File ist kein bild&gid='.$gid);
+            header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Das hochgeladene Bild ist zu gross&gid='.$gid);
           }
       } else {
         var_dump("Es werden nur JPG oder PNG akzeptiert");
@@ -144,6 +144,40 @@ require_once '../repository/GalleryRepository.php';
         header('Location: '.$GLOBALS['appurl'].'/gallerie/createFoto?error='.'Es werden nur JPG oder PNG akzeptiert&gid='.$gid);
       }
       
+    }
+
+    public function editFoto() {
+      $fid = $_GET['fid'];
+      
+      $galleryRepository = new GalleryRepository();
+      $view = new View('foto_edit');
+      $view->heading = 'Foto Bearbeiten';
+      $view->title = 'Foto Bearbeiten';
+      $view->fid = $fid;
+      $view->foto = $galleryRepository->getFotoById($fid);
+      $view->display();
+    }
+
+    public function doEditFoto() {
+      $id = $_GET['id'];
+      $gid = $_GET['gid'];
+      $name = $_POST['name'];
+      $description = $_POST['description'];
+      $galleryRepository = new GalleryRepository();
+      $galleryRepository->editFoto($id, $name, $description);
+      header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
+    }
+
+    public function deleteFoto() {
+      $id = $_GET['id'];
+      $gid = $_GET['gid'];
+      $galleryRepository = new GalleryRepository();
+      $galleryRepository->deleteFotoById($id);
+      unlink($GLOBALS['appurl'].'/'.$_POST['path_small']);
+      unlink($GLOBALS['appurl'].'/'.$_POST['path']);
+      var_dump($GLOBALS['appurl'].'/'.$_GET['path'], $_GET['path_small']);
+      die();
+      header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
     }
   }
 ?>
