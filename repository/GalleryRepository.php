@@ -98,10 +98,10 @@ class GalleryRepository extends Repository {
        return $rows;
       }
 
-      public function createPicture($gid, $name, $path, $thumpnail, $description) {
-        $query = "INSERT INTO picture (gid, name, description, path, thumpnail) VALUES (?,?,?,?,?)";
+      public function createPicture($uid, $gid, $name, $path, $thumpnail, $description) {
+        $query = "INSERT INTO picture (uid, gid, name, description, path, thumpnail) VALUES (?,?,?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('issss', $gid, $name, $description, $path, $thumpnail);
+        $statement->bind_param('iissss', $uid, $gid, $name, $description, $path, $thumpnail);
 
         if (!$statement->execute()) {
             throw new Exception($statement->error);

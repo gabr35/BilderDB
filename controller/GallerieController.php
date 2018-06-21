@@ -31,7 +31,15 @@ require_once '../repository/GalleryRepository.php';
       
       $id = $_GET['id'];
       $galleryRepository = new GalleryRepository();
+      $fotos = $galleryRepository->getFotosByGid($id);
+      foreach ($fotos as $foto) {
+        //$galleryRepository->deleteFotoById($foto->id);
+        unlink($_SERVER['DOCUMENT_ROOT'].$GLOBALS['appurl'].'/'.$foto->thumpnail);
+        unlink($_SERVER['DOCUMENT_ROOT'].$GLOBALS['appurl'].'/'.$foto->path);
+        var_dump($foto);
+      }
       $galleryRepository->deleteGalleryById($id);
+      //die();
       header('Location: '.$GLOBALS['appurl'].'/landing');
     }
 
@@ -90,7 +98,7 @@ require_once '../repository/GalleryRepository.php';
           $check = getimagesize($_FILES["picture"]["tmp_name"]);
            var_dump($check, "chekc if png or jpg");
           //die();
-          if($_FILES["fileToUpload"]["size"] < 400000) {
+          if($_FILES["picture"]["size"] < 4000000000) {
               //echo "File is an image - " . $check["mime"] . ".";
               $uploadOk = 1;
               var_dump($target_file, "chekc if picture");
@@ -124,7 +132,7 @@ require_once '../repository/GalleryRepository.php';
                   }
                   
                   $galleryRepository = new GalleryRepository();
-                  $galleryRepository->createPicture($gid, $name, $target_file, $target_file_small, $description);
+                  $galleryRepository->createPicture($_SESSION['uid'], $gid, $name, $target_file, $target_file_small, $description);
                   header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
                   
               } else {
@@ -173,10 +181,10 @@ require_once '../repository/GalleryRepository.php';
       $gid = $_GET['gid'];
       $galleryRepository = new GalleryRepository();
       $galleryRepository->deleteFotoById($id);
-      unlink($GLOBALS['appurl'].'/'.$_POST['path_small']);
-      unlink($GLOBALS['appurl'].'/'.$_POST['path']);
-      var_dump($GLOBALS['appurl'].'/'.$_GET['path'], $_GET['path_small']);
-      die();
+      unlink($_SERVER['DOCUMENT_ROOT'].$GLOBALS['appurl'].'/'.$_GET['path_small']);
+      unlink($_SERVER['DOCUMENT_ROOT'].$GLOBALS['appurl'].'/'.$_GET['path']);
+      // var_dump($_SERVER['DOCUMENT_ROOT'].$GLOBALS['appurl'].'/'.$_GET['path'], $_GET['path_small']);
+      // die();
       header('Location: '.$GLOBALS['appurl'].'/gallerie/fotos?gid='.$gid);
     }
   }

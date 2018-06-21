@@ -19,6 +19,34 @@ require_once '../lib/Repository.php';
       }
 
     }
+    
+    public function getUser($uid) {
+       
+      $query = "SELECT * FROM user WHERE id=?";
+      $statement = ConnectionHandler::getConnection()->prepare($query);
+      $statement->bind_param('i', $uid);
+
+      if (!$statement->execute()) {
+        throw new Exception($statement->error);
+      }
+
+      $statement->execute();
+  
+        // Resultat der Abfrage holen
+        $result = $statement->get_result();
+        if (!$result) {
+          throw new Exception($statement->error);
+        }
+    
+        // Ersten Datensatz aus dem Reultat holen
+        $row = $result->fetch_object();
+    
+        // Datenbankressourcen wieder freigeben
+        $result->close();
+    
+        // Den gefundenen Datensatz zurückgeben
+        return $row;
+    }
 
     public function chekcEmail($email) {
 
@@ -75,6 +103,25 @@ require_once '../lib/Repository.php';
 
       
         return $row;
+    }
+
+    public function updateUser($uid, $name, $email, $password) {
+      $query = "UPDATE user SET name=?, email=?, password=? WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('sssi', $name, $email, $password, $uid);
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+          }
+    }
+
+    public function deleteUserById($uid) {
+      $query = "DELETE FROM user WHERE id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $uid);
+    
+        if (!$statement->execute()) {
+          throw new Exception($statement->error);
+        }
     }
 
   }

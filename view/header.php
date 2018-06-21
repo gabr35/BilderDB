@@ -91,10 +91,10 @@
         </ul>
         <ul class="navbar-nav pull-right">
           <li class="nav-item">
-            <a class="nav-link" style="display:<?=$userNameTag ?>" href=""><?=$userName?></a>
+            <a class="nav-link" style="display:<?=$userNameTag ?>" href="<?=$GLOBALS['appurl']?>/login/editUser"><?=$userName?></a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" style="display:<?=$profileIcon ?>" href=""><img alt="icon" src="<?=$GLOBALS['appurl']?>/svg/person.svg"></a>
+            <a class="nav-link" style="display:<?=$profileIcon ?>" href="<?=$GLOBALS['appurl']?>/login/editUser"><img alt="icon" src="<?=$GLOBALS['appurl']?>/svg/person.svg"></a>
           </li>
         </ul>
       </div>

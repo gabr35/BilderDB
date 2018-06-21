@@ -1,5 +1,6 @@
 <?php
 require_once '../repository/LoginRepository.php';
+require_once '../repository/GalleryRepository.php';
 /**
  * Controller für das Login und die Registration, siehe Dokumentation im DefaultController.
  */
@@ -83,11 +84,18 @@ require_once '../repository/LoginRepository.php';
             $uppercase = preg_match('@[A-Z]@', $password);
             $lowercase = preg_match('@[a-z]@', $password);
             $number    = preg_match('@[0-9]@', $password);
-            if ($loginRepository->chekcEmail($email)) {
+            if ($loginRepository->chekcEmail($email) || isset($_GET['update'])) {
               if($uppercase && $lowercase && $number && strlen($password) >= 8) {
                 
                 $password = sha1($password);
-                $loginRepository->registerUser($name, $email, $password);
+                if (isset($_GET['update'])) {
+                  $loginRepository->updateUser( $_SESSION['uid'], $name, $email, $password);
+                  $_SESSION['name'] = $name;
+                  header('Location: '.$GLOBALS['appurl'].'/landing');
+                } else {
+                  $loginRepository->registerUser($name, $email, $password);
+                
+                
                 sleep(3);
                 $user = $loginRepository->checkLogin($email, $password);
                 //var_dump($user);
@@ -95,6 +103,8 @@ require_once '../repository/LoginRepository.php';
                 $_SESSION['uid'] = $user->id;
                 $_SESSION['name'] = $user->name;
                 header('Location: '.$GLOBALS['appurl'].'/landing');
+                }
+                
               } else {
                 header('Location: '.$GLOBALS['appurl'].'/login/registration?error='.'Passwort entspricth nicht der Vorgabe');
               }
@@ -123,6 +133,34 @@ require_once '../repository/LoginRepository.php';
             break;
         }
       }
+    }
+
+    public function editUser() {
+      $uid = $_SESSION['uid'];
+      $loginRepository = new LoginRepository();
+      $view = new View('edit_user');
+      $view->title = 'Bilder-DB';
+      $view->heading = 'Edit User';
+      $user = $loginRepository->getUser($uid);
+      $view->user = $user;
+      
+      $view->display();
+      
+    }
+
+    public function deleteUser() {
+      $loginRepository = new LoginRepository();
+      $galleryRepository = new GalleryRepository();
+      $galleries = $galleryRepository->getGalleriesByUid($_SESSION['uid']);
+      foreach ($galleries as $gallerie) {
+        header('Location: '.$GLOBALS['appurl'].'/gallerie/delete?id='.$gallerie->id);
+      }
+      $loginRepository->deleteUserById($_SESSION['uid']);
+      
+      session_destroy();
+      
+      header('Location: '.$GLOBALS['appurl'].'/login/registration');
+      
     }
 
     public function logout() {

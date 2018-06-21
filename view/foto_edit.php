@@ -33,6 +33,7 @@
 			                    		<label class="sr-only" for="form-name">Name</label>
 			                        	<input type="text" name="name" placeholder="Name..." class="form-username form-control" id="form-name" value="<?=$foto->name?>">
                                         
+                                        
 			                        </div>
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-description">Description</label>
